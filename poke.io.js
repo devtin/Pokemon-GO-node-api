@@ -159,7 +159,7 @@ function Pokeio() {
                     if (err) return reject(err);
 
                     self.playerInfo.accessToken = token[0];
-                    self.playerInfo.tokenExpire = token[1];
+                    self.playerInfo.tokenExpire = parseInt(token[1])+Math.round((new Date().getTime()/1000));
                     self.DebugPrint('[i] Received PTC access token! {Expires: ' + token[1] + '}');
                     resolve(token[0]);
                 });
@@ -168,7 +168,7 @@ function Pokeio() {
                     if (err) return reject(err);
 
                     self.playerInfo.accessToken = token[0];
-                    self.playerInfo.tokenExpire = token[1];
+                    self.playerInfo.tokenExpire = parseInt(token[1]);
                     self.DebugPrint('[i] Received Google access token! {Expires: ' + token[1] + '}');
                     resolve(token[0]);
                 });
