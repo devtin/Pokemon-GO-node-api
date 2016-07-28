@@ -224,7 +224,7 @@ function Pokeio() {
     };
 
     // IN DEVELPOMENT, YES WE KNOW IS NOT WORKING ATM
-    self.Heartbeat = function (callback) {
+    self.Heartbeat = function () {
         let {apiEndpoint,accessToken} = self.playerInfo;
 
 
@@ -254,7 +254,7 @@ function Pokeio() {
             });
     };
 
-    self.GetLocation = function (callback) {
+    self.GetLocation = function () {
         return new Promise(function(resolve,reject) {
             geocoder.reverseGeocode(...GetCoords(self), function (err, data) {
                 if (data.status === 'ZERO_RESULTS') {
@@ -266,7 +266,7 @@ function Pokeio() {
         });
     };
 
-    self.CatchPokemon = function (mapPokemon, pokeball, callback) {
+    self.CatchPokemon = function (mapPokemon, pokeball) {
         console.log('Attempting to catch now...');
 
         let {apiEndpoint,accessToken} = self.playerInfo;
@@ -331,7 +331,7 @@ function Pokeio() {
                 location.name = loc;
             } else if (typeof loc == 'object' && !Array.isArray(loc) && loc.latitude && loc.longitude) {
                 location.type = 'coords';
-                location.coords = _.defaults(_.pic(loc,['latitude','longitude','altitude']),{altitude:0});
+                location.coords = _.defaults(_.pick(loc,['latitude','longitude','altitude']),{altitude:0});
             } else {
                 return reject('Invalid location');
             }
@@ -381,7 +381,7 @@ function Pokeio() {
         self.Heartbeat(cb);
     };
 
-    self.GetFort = function(fortid, fortlat, fortlong, callback) {
+    self.GetFort = function(fortid, fortlat, fortlong) {
         var FortMessage = new RequestEnvelop.FortSearchMessage({
             'fort_id': fortid,
             'player_latitude': fortlat,
