@@ -246,16 +246,12 @@ function Pokeio() {
 
         var req = [new RequestEnvelop.Requests(106, walkData.encode().toBuffer()), new RequestEnvelop.Requests(126), new RequestEnvelop.Requests(4, new RequestEnvelop.Unknown3(Date.now().toString()).encode().toBuffer()), new RequestEnvelop.Requests(129), new RequestEnvelop.Requests(5, new RequestEnvelop.Unknown3('05daf51635c82611d1aac95c0b051d3ec088a930').encode().toBuffer())];
 
-        api_req(apiEndpoint, accessToken, req, function (err, f_ret) {
-            if (err) {
-                return callback(err);
-            } else if (!f_ret || !f_ret.payload || !f_ret.payload[0]) {
-                return callback('No result');
-            }
+        return api_req(apiEndpoint,accessToken,req)
+            .then(function (f_ret) {
+                if (!f_ret || !f_ret.payload || !f_ret.payload[0]) throw 'No result';
 
-            var heartbeat = ResponseEnvelop.HeartbeatPayload.decode(f_ret.payload[0]);
-            callback(null, heartbeat);
-        });
+                return ResponseEnvelop.HeartbeatPayload.decode(f_ret.payload[0]);
+            });
     };
 
     self.GetLocation = function (callback) {
@@ -296,7 +292,7 @@ function Pokeio() {
 
     };
 
-    self.EncounterPokemon = function (catchablePokemon, callback) {
+    self.EncounterPokemon = function (catchablePokemon) {
         // console.log(catchablePokemon);
         let {apiEndpoint, accessToken, latitude, longitude} = self.playerInfo;
 
