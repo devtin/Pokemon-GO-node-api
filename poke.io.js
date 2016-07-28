@@ -28,7 +28,7 @@ const api_url = 'https://pgorelease.nianticlabs.com/plfe/rpc';
 function GetCoords(self) {
     let {latitude, longitude} = self.playerInfo;
     return [latitude, longitude];
-};
+}
 
 
 function getNeighbors(lat, lng) {
@@ -433,4 +433,4 @@ function Pokeio() {
 
 module.exports = new Pokeio();
 module.exports.Pokeio = Pokeio;
-module.exports.Pokego = require('./pokego.js');
+//module.exports.Pokego = require('./pokego.js');
