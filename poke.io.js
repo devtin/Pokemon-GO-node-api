@@ -63,6 +63,7 @@ function Pokeio() {
     self.j              = request.jar();
     self.request        = request.defaults({jar: self.j});
     self.google         = new GoogleOAuth();
+    self.requests       = {};
 
     self.playerInfo     = {
         accessToken         : '',
@@ -121,7 +122,14 @@ function Pokeio() {
                 }
             };
 
-            self.request.post(options, function (err, response, body) {
+            if (self.requests[options.url]) {
+                try {
+                    self.requests[options.url].abort();
+                } catch(e){}
+            }
+
+            self.requests[options.url] = self.request.post(options, function (err, response, body) {
+                self.request[options.url] = null;
 
                 if (response === undefined || body === undefined) return reject('RPC Server offline');
 
