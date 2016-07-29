@@ -151,7 +151,7 @@ function Pokeio() {
     }
 
     self.init = function (username, password, location) {
-        self.playerInfo.provider = /@/i.test(username) ? 'google' : 'ptc'; // treat any email address as a google account
+        self.playerInfo.provider = /@[\a-z0-9\-\.]+\.[a-z0-9]+/i.test(username) ? 'google' : 'ptc'; // treat any email address as a google account
 
         return self.SetLocation(location)
             .then(() => self.GetAccessToken(username,password))
